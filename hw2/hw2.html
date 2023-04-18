@@ -1,0 +1,63 @@
+<html>
+    <body>
+        <style>
+        table {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+          }
+          td,
+          th {
+            border: 1px solid #ddd;
+            padding: 6px;
+          }
+          tr:nth-child(even) {
+            background-color: #f2f2f2;
+          }
+          tr:hover {
+            background-color: #ddd;
+          }
+          th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #04aa6d;
+            color: white;
+          }
+        </style >
+        <h1> 景點觀光展覽資訊 </h1>
+          <table id = "csie">
+            <tr>
+              <th> 地點 </th>
+              <th> 名稱 </th>
+              <th> 票價 </th>
+            </tr>
+        </table>
+      </body>
+      <button>上一頁</button>
+      <button onclick="add_new_data">下一頁</button>
+              
+</html>>
+
+    <script>
+        var dataUrl = 'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6';
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET',dataUrl,true);
+        xhr.send();
+        xhr.onreadystatechange = function(){
+        if(this.readyState==4&&this.status==200){ 
+            dataset=JSON.parse(this.responseText);
+            add_new_data(dataset);
+            }
+        };
+
+        function add_new_data(dataset) {
+            var myTable = document.getElementById("csie");
+            dataset.forEach(function(data,index){
+                var row=myTable.insertRow(-1);
+                row.insertCell(0).innerHTML = data['title'];
+                row.insertCell(1).innerHTML = data['showInfo'][0]['location'];
+                row.insertCell(2).innerHTML = data['showInfo'][0]['price'];
+            });
+            }
+     </script>
